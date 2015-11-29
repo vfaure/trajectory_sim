@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-g -Wall -Werror -std=c99
-LDFLAGS=-lSDL -lm
+LDFLAGS=-L/usr/local/lib -lSDL -lm -lSDL_draw
 SRC=$(wildcard *.c)
 OBJ=$(SRC:.c=.o)
 

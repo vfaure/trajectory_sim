@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL/SDL.h>
+#include <SDL/SDL_draw.h>
 
 #include "map.h"
 
@@ -23,6 +24,63 @@ void draw_map(uint32_t** _p_table, int _length, int _width, int _coef)
     screen = SDL_SetVideoMode(_length*_coef, _width*_coef, 32, SDL_HWSURFACE);
     SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 237, 232, 102));
     
+    //Blue = sea
+    //SDL_Surface* surface = SDL_CreateRGBSurface(SDL_HWSURFACE, 600, 160, 32, 0, 0, 0, 0);
+    SDL_Surface* surface = SDL_CreateRGBSurface(SDL_HWSURFACE, 600, 100, 32, 0, 0, 0, 0);
+    SDL_FillRect(surface, NULL, SDL_MapRGB(screen->format, 90, 147, 174));
+    SDL_Rect pos;
+    pos.x = 0;
+    //pos.y = 240;
+    pos.y = 300;
+    SDL_BlitSurface(surface , NULL, screen, &pos);
+    SDL_FreeSurface(surface); 
+    surface = SDL_CreateRGBSurface(SDL_HWSURFACE, 120, 60, 32, 0, 0, 0, 0);
+    SDL_FillRect(surface, NULL, SDL_MapRGB(screen->format, 90, 147, 174));
+    pos.x = 0;
+    pos.y = 240;
+    SDL_BlitSurface(surface , NULL, screen, &pos);
+    pos.x = 480;
+    pos.y = 240;
+    SDL_BlitSurface(surface , NULL, screen, &pos);
+    SDL_FreeSurface(surface); 
+    //Draw_FillCircle(screen, 150, 35, 115, SDL_MapRGB(screen->format, 237, 232, 102)); 
+    //Draw_FillCircle(screen, 150, 35, 40, SDL_MapRGB(screen->format, 237, 232, 0)); 
+    
+    //start purple
+    surface = SDL_CreateRGBSurface(SDL_HWSURFACE, 60, 100, 32, 0, 0, 0, 0);
+    SDL_FillRect(surface, NULL, SDL_MapRGB(screen->format, 145, 94, 192));
+    pos.x = 0;
+    pos.y = 120;
+    SDL_BlitSurface(surface , NULL, screen, &pos);
+
+    //start green
+    SDL_FillRect(surface, NULL, SDL_MapRGB(screen->format, 72, 205, 82));
+    pos.x = 540;
+    pos.y = 120;
+    SDL_BlitSurface(surface , NULL, screen, &pos);
+    SDL_FreeSurface(surface); 
+
+    //White stripes on starting zone
+    surface = SDL_CreateRGBSurface(SDL_HWSURFACE, 60, 10, 32, 0, 0, 0, 0);
+    SDL_FillRect(surface, NULL, SDL_MapRGB(screen->format, 255, 255, 255));
+    
+    pos.x = 0;
+    pos.y = 130;
+    SDL_BlitSurface(surface , NULL, screen, &pos);
+    
+    pos.x = 0;
+    pos.y = 200;
+    SDL_BlitSurface(surface , NULL, screen, &pos);
+
+    pos.x = 540;
+    pos.y = 130;
+    SDL_BlitSurface(surface , NULL, screen, &pos);
+    
+    pos.x = 540;
+    pos.y = 200;
+    SDL_BlitSurface(surface , NULL, screen, &pos);
+
+
     //Set occupancy grid
     SDL_Surface* unitarySurface =  SDL_CreateRGBSurface(SDL_HWSURFACE, _coef, _coef, 32, 0, 0, 0, 0);
     SDL_Rect unitarySurfacePosition;
