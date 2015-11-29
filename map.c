@@ -6,7 +6,7 @@
 
 void init_map()
 {
-    printf("Init map");
+    printf("Init map\n");
     if (SDL_Init(SDL_INIT_VIDEO) == -1)
     {
         fprintf(stderr, "Erreur d'initialisation de la SDL : %s\n", SDL_GetError());
@@ -14,20 +14,42 @@ void init_map()
     }
 }
 
-void draw_map()
+void draw_map(uint32_t** _p_table, int _length, int _width, int _coef)
 {
-    printf("Draw map");
+    printf("Draw map\n");
     //Main surface
     SDL_Surface *screen = NULL;
-    screen = SDL_SetVideoMode(600, 400, 32, SDL_HWSURFACE);
+    screen = SDL_SetVideoMode(_length*_coef, _width*_coef, 32, SDL_HWSURFACE);
     SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 17, 206, 112));
+    SDL_Surface* unitarySurface =  SDL_CreateRGBSurface(SDL_HWSURFACE, _coef, _coef, 32, 0, 0, 0, 0);
+    SDL_Rect unitarySurfacePosition;
+    for(int x = 0; x < _length; x++)
+    {
+        for(int y = 0; y < _width; y++)
+        {
+            //printf("val: %d, x=%d, y=%d\n",_p_table[x][y], x, y);
+            if(_p_table[x][y])
+            {
+                //printf("val: %d, x=%d, y=%d\n",_p_table[x][y], x, y);
+                //draw occupied
+                SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
+            }
+            else
+            {
+                //draw Not occupied
+                SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 255, 255, 255));
+            }
+            unitarySurfacePosition.x = x * _coef;
+            unitarySurfacePosition.y = y * _coef;     
+            SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
+        }
+    }
     SDL_Flip(screen);
-
 }
 
 void quit_map()
 {
-    printf("quit map");
+    printf("quit map\n");
     SDL_Quit();
 }
 
@@ -35,6 +57,8 @@ void sdl_pause()
 {
     int continuer = 1;
     SDL_Event event;
+
+
     while (continuer)
     {
         SDL_WaitEvent(&event);
