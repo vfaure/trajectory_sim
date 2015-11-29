@@ -24,7 +24,7 @@ void setPointOccupied(uint32_t** _p_table, int _x, int _y)
 {
     //Security to avoid buffer overflow
     //TODO : Change Hard coded Value
-    if((_x < 300) && (_y < 200) && (_x > 0) && (_y > 0))
+    if((_x < 300) && (_y < 200) && (_x >= 0) && (_y >= 0))
         _p_table[_x][_y] = (uint8_t)1;
     //printf("x:%d, y:%d\n", _x, _y);
 }
@@ -46,7 +46,7 @@ void setCircleOccupied(uint32_t ** _p_table, int _xCenter, int _yCenter, int _ra
     for(int y = _yCenter; y < _yCenter + _radius; y++)
     {
         xMax = sqrt((float)_radius*(float)_radius - (float)(y-_yCenter)*(float)(y-_yCenter));
-        printf("x= %d, y= %d\n", (int)round(xMax), y);
+        //printf("x= %d, y= %d\n", (int)round(xMax), y);
         setRectangleOccupied(_p_table, (int)round(xMax), 1, _xCenter, y);
         setRectangleOccupied(_p_table, (int)round(xMax), 1, _xCenter - (int)round(xMax) , y);
         setRectangleOccupied(_p_table, (int)round(xMax), 1, _xCenter, 2*_yCenter - y - 1);

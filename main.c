@@ -17,8 +17,6 @@ int main(int argc, const char* argv[])
     setRectangleOccupied(p_table, 120, 2, 90, 75);
     setRectangleOccupied(p_table, 6, 60, 147, 75);
     
-    setRectangleOccupied(p_table, 1, 10, 0, 150);
-    
     setCircleOccupied(p_table, 0, 199, 25); 
     setCircleOccupied(p_table, 299, 199, 25); 
 

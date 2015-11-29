@@ -17,31 +17,27 @@ void init_map()
 void draw_map(uint32_t** _p_table, int _length, int _width, int _coef)
 {
     printf("Draw map\n");
-    //Main surface
+    
+    //Draw the table
     SDL_Surface *screen = NULL;
     screen = SDL_SetVideoMode(_length*_coef, _width*_coef, 32, SDL_HWSURFACE);
-    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 17, 206, 112));
+    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 237, 232, 102));
+    
+    //Set occupancy grid
     SDL_Surface* unitarySurface =  SDL_CreateRGBSurface(SDL_HWSURFACE, _coef, _coef, 32, 0, 0, 0, 0);
     SDL_Rect unitarySurfacePosition;
     for(int x = 0; x < _length; x++)
     {
         for(int y = 0; y < _width; y++)
         {
-            //printf("val: %d, x=%d, y=%d\n",_p_table[x][y], x, y);
             if(_p_table[x][y])
             {
-                //printf("val: %d, x=%d, y=%d\n",_p_table[x][y], x, y);
                 //draw occupied
                 SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
+                unitarySurfacePosition.x = x * _coef;
+                unitarySurfacePosition.y = y * _coef;     
+                SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
             }
-            else
-            {
-                //draw Not occupied
-                SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 255, 255, 255));
-            }
-            unitarySurfacePosition.x = x * _coef;
-            unitarySurfacePosition.y = y * _coef;     
-            SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
         }
     }
     SDL_Flip(screen);
