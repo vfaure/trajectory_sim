@@ -27,13 +27,12 @@ typedef struct list list_s;
 
 struct list
 {
-    node_s* node;
+    node_s* p_node;
     list_s* p_nextElement;
 };
 
 void addToList(list_s* _p_list, node_s* _p_node);
-void removeFromList(list_s* _p_list, node_s* node);
-
+int removeFromList(list_s* _p_list, node_s* _p_node);
 
 uint32_t getDistance(node_s source, node_s dest);
 
