@@ -8,6 +8,7 @@ typedef enum
 {
     OBSTACLE,
     CLOSED_LIST,
+    FINAL_TRAJ,
     OPEN_LIST,
     ROBOT
 }nodeType_e;
@@ -31,7 +32,7 @@ struct list
 };
 
 void addToList(list_s* _p_list, node_s* _p_node);
-void removeFromList(list_s _p_list, node_s* node);
+void removeFromList(list_s* _p_list, node_s* node);
 
 
 uint32_t getDistance(node_s source, node_s dest);

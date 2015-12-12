@@ -1,9 +1,10 @@
+#include <stdio.h>
 #include "algo.h"
 
 // square of the idstance to use integer
 uint32_t getDistance(node_s _source, node_s _dest)
 {
-    return ((_dest.y - _source.y)^2 + (_dest.x - _source.x)^2);
+    return ((_dest.y - _source.y)*(_dest.y - _source.y) + (_dest.x - _source.x)*(_dest.x - _source.x));
 }
 
 void addToList(list_s* _p_list, node_s* _p_node)
@@ -16,6 +17,14 @@ void addToList(list_s* _p_list, node_s* _p_node)
     }
     else
     {
-        ; //Add to list 
+        //Cost
+    }
+}
+
+void removeFromList(list_s* _p_list, node_s* node)
+{
+    if(_p_list == NULL)
+    {
+        printf("List is empty");
     }
 }
