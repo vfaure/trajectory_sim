@@ -10,9 +10,7 @@ uint32_t** createTable(int _length, int _width)
     uint32_t** p_table = malloc(_length * sizeof(uint32_t));
     memset(p_table, 0, _length * sizeof(uint32_t));
     for (int i = 0; i < _length; i++)
-    //for (int i = 0; i < 74; i++)
     {
-        //printf("toto, i= %d\n", i);
         p_table[i] = malloc(_width * sizeof(uint32_t));
         memset(p_table[i], 0, _width * sizeof(uint32_t));
     }
