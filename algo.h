@@ -17,7 +17,7 @@ typedef struct
 {
     uint8_t x;
     uint8_t y;
-    uint8_t nodeType; //is a nodeType_e cast in uint32_t to be sure of the size
+    uint8_t nodeType; //is a nodeType_e cast in uint8_t to be sure of the size
     uint32_t cost;
     uint8_t pX;
     uint8_t pY;

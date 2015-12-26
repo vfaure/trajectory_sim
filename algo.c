@@ -17,7 +17,25 @@ void addToList(list_s* _p_list, node_s* _p_node)
     }
     else
     {
-        //Cost
+        list_s* p_tmp = _p_list;
+        list_s* p_prec = NULL;
+        while(_p_node->cost > p_tmp->p_node->cost)
+        {
+            p_prec = p_tmp;
+            p_tmp = p_tmp->p_nextElement;
+            if(p_tmp == NULL)
+                break;
+        }
+        if(p_prec == NULL)
+        {
+            _p_list->p_node = _p_node;
+            _p_list->p_nextElement = p_tmp;
+        }
+        else
+        {
+            p_prec->p_nextElement->p_node = _p_node;
+            p_prec->p_nextElement->p_nextElement = p_tmp; 
+        }
     }
 }
 
