@@ -3,9 +3,9 @@
 #include <string.h>
 #include <math.h>
 
-#include "table.h"
+#include "table_sdl_wrapper.h"
 
-uint32_t** createTable(int _length, int _width)
+uint32_t** createTableSdl(int _length, int _width)
 {
     uint32_t** p_table = malloc(_length * sizeof(uint32_t));
     memset(p_table, 0, _length * sizeof(uint32_t));

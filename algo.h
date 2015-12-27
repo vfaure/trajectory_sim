@@ -6,6 +6,7 @@
 
 typedef enum
 {
+    NEW_NODE = 0,
     OBSTACLE,
     CLOSED_LIST,
     FINAL_TRAJ,
