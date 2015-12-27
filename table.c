@@ -33,7 +33,7 @@ void setPoint(node_s** _p_table, int _x, int _y, nodeType_e _nodeType)
 {
     //Security to avoid buffer overflow
     //TODO : Change Hard coded Value
-    if((_x < 150) && (_y < 100) && (_x >= 0) && (_y >= 0))
+    if((_x < TABLE_LENGTH/GRID_SIZE) && (_y < TABLE_WIDTH/GRID_SIZE) && (_x >= 0) && (_y >= 0))
         _p_table[_x][_y].nodeType = _nodeType;
     //printf("x:%d, y:%d\n", _x, _y);
 }

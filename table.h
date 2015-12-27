@@ -4,6 +4,10 @@
 #include <stdint.h>
 #include "algo.h"
 
+#define GRID_SIZE 2
+#define TABLE_LENGTH 300
+#define TABLE_WIDTH 200
+
 node_s** createTable(int _length, int _width);
 void initialiseTable(node_s** _table, int _length, int _width);
 void setPoint(node_s** _p_table, int _x, int _y, nodeType_e _nodeType);

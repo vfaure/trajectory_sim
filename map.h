@@ -3,9 +3,11 @@
 
 #include <stdint.h>
 #include <SDL/SDL.h>
+#include "algo.h"
+#include "table.h"
 
 void init_map();
-void draw_map(uint32_t ** _p_table, int _length, int _width, int _coef);
+void draw_map(node_s ** _p_table, int _length, int _width, int _coef);
 void quit_map();
 void sdl_pause();
 

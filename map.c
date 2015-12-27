@@ -15,13 +15,13 @@ void init_map()
     }
 }
 
-void draw_map(uint32_t** _p_table, int _length, int _width, int _coef)
+void draw_map(node_s** _p_table, int _length, int _width, int _coef)
 {
     printf("Draw map\n");
     
     //Draw the table
     SDL_Surface *screen = NULL;
-    screen = SDL_SetVideoMode(_length*_coef, _width*_coef, 32, SDL_HWSURFACE);
+    screen = SDL_SetVideoMode(_length*_coef*GRID_SIZE, _width*_coef*GRID_SIZE, 32, SDL_HWSURFACE);
     SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 237, 232, 102));
     
     //Blue = sea
@@ -82,18 +82,19 @@ void draw_map(uint32_t** _p_table, int _length, int _width, int _coef)
 
 
     //Set occupancy grid
-    SDL_Surface* unitarySurface =  SDL_CreateRGBSurface(SDL_HWSURFACE, _coef, _coef, 32, 0, 0, 0, 0);
+    SDL_Surface* unitarySurface =  SDL_CreateRGBSurface(SDL_HWSURFACE, _coef*GRID_SIZE, _coef*GRID_SIZE, 32, 0, 0, 0, 0);
     SDL_Rect unitarySurfacePosition;
     for(int x = 0; x < _length; x++)
     {
         for(int y = 0; y < _width; y++)
         {
-            if(_p_table[x][y])
+            printf("x= %d, y= %d \n", x, y);
+            if(_p_table[x][y].nodeType == OBSTACLE)
             {
                 //draw occupied
                 SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
-                unitarySurfacePosition.x = x * _coef;
-                unitarySurfacePosition.y = y * _coef;     
+                unitarySurfacePosition.x = x * _coef* GRID_SIZE;
+                unitarySurfacePosition.y = y * _coef* GRID_SIZE;     
                 SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
             }
         }
