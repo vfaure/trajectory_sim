@@ -88,7 +88,7 @@ void draw_map(node_s** _p_table, int _length, int _width, int _coef)
     {
         for(int y = 0; y < _width; y++)
         {
-            printf("x= %d, y= %d \n", x, y);
+            //printf("x= %d, y= %d \n", x, y);
             if(_p_table[x][y].nodeType == OBSTACLE)
             {
                 //draw occupied

@@ -75,3 +75,29 @@ int removeFromList(list_s* _p_list, node_s* _p_node)
     }
     return 0;
 }
+
+void dealWithNode(list_s* _p_openList, node_s* _p_node, node_s* _p_parentNode)
+{
+    printf("Node type = %d\n", _p_node->nodeType);//Do nothing for all other cases
+    if(_p_node->nodeType == NEW_NODE)
+    {
+        _p_node->pX = _p_parentNode->x;
+        _p_node->pY = _p_parentNode->y;
+        _p_node->nodeType = OPEN_LIST;
+        _p_node->cost = _p_parentNode->cost + getDistance(*_p_parentNode, *_p_node);
+        addToList(_p_openList, _p_node);
+    }
+    else if(_p_node->nodeType == OPEN_LIST)
+    {
+        if(_p_parentNode->cost + getDistance(*_p_parentNode, *_p_node) < _p_node->cost)
+        {
+            _p_node->cost = _p_parentNode->cost + getDistance(*_p_parentNode, *_p_node);
+            _p_node->pX = _p_parentNode->x;
+            _p_node->pY = _p_parentNode->y;
+        }
+    }
+    else
+        ;//Do nothing for all other cases
+}
+
+

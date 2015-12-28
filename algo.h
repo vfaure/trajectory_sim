@@ -32,9 +32,11 @@ struct list
     list_s* p_nextElement;
 };
 
+void dealWithNode(list_s* _p_openList, node_s* _p_node, node_s* _p_parentNode);
 void addToList(list_s* _p_list, node_s* _p_node);
 int removeFromList(list_s* _p_list, node_s* _p_node);
-
+void setStartNode(node_s* _p_startNode);
+void setTargetNode(node_s* _p_targetNode);
 uint32_t getDistance(node_s source, node_s dest);
 
 
