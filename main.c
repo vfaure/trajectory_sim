@@ -31,9 +31,10 @@ int main(int argc, const char* argv[])
 
     //Open list
     list_s* p_openList = NULL; 
-    node_s* p_currentNode = &p_table[75][0];
+    node_s* p_currentNode = &p_table[(TABLE_LENGTH/GRID_SIZE)/2][0];
+    p_currentNode->cost = getDistance(*p_currentNode, p_table[TABLE_LENGTH/GRID_SIZE-2][5]);
 
-    while(p_currentNode != &p_table[149][2])
+    while(p_currentNode != &p_table[TABLE_LENGTH/GRID_SIZE-2][5])
     {
         //printf("current node x=%d, y=%d \n", p_currentNode->x, p_currentNode->y);
         //Treat adjacent node
@@ -44,7 +45,7 @@ int main(int argc, const char* argv[])
                 //printf("i=%d, j=%d\n", i, j);
                 if((i>=0) && (j>=0) && (i<(TABLE_LENGTH/GRID_SIZE)) && (j<(TABLE_WIDTH/GRID_SIZE)) && ((i != p_currentNode->x) || (j!=p_currentNode->y)))
                 {
-                    dealWithNode(&p_openList, &p_table[i][j], p_currentNode, &p_table[149][2]);
+                    dealWithNode(&p_openList, &p_table[i][j], p_currentNode, &p_table[TABLE_LENGTH/GRID_SIZE-2][5]);
                 }
             }
         }

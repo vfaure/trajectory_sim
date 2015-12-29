@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "algo.h"
+#include "table.h"
 
 // square of the idstance to use integer
 uint32_t getDistance(node_s _source, node_s _dest)
@@ -77,14 +78,13 @@ int removeFromList(list_s* _p_list, node_s* _p_node)
         if(p_prec != NULL)
         {
             p_prec->p_nextElement = p_tmp->p_nextElement;
-            //free(p_tmp);
         }
         else
         {
             _p_list->p_node = p_tmp->p_nextElement->p_node;
             _p_list->p_nextElement = p_tmp->p_nextElement->p_nextElement;
-            //free(p_tmp);
         }
+        //free(p_tmp);
     }
     return 0;
 }
@@ -97,14 +97,14 @@ void dealWithNode(list_s** _p_openList, node_s* _p_node, node_s* _p_parentNode, 
         _p_node->pX = _p_parentNode->x;
         _p_node->pY = _p_parentNode->y;
         _p_node->nodeType = OPEN_LIST;
-        _p_node->cost = _p_parentNode->cost + getDistance(*_p_parentNode, *_p_node) + getDistance(*_p_node, *_p_targetNode);
+        _p_node->cost = (_p_parentNode->cost - getDistance(*_p_parentNode, *_p_targetNode)) + getDistance(*_p_parentNode, *_p_node) + getDistance(*_p_node, *_p_targetNode);
         addToList(_p_openList, _p_node);
     }
     else if(_p_node->nodeType == OPEN_LIST)
     {
-        if(_p_parentNode->cost + getDistance(*_p_parentNode, *_p_node) + getDistance(*_p_node, *_p_targetNode) < _p_node->cost)
+        if((_p_parentNode->cost - getDistance(*_p_parentNode, *_p_targetNode)) + getDistance(*_p_parentNode, *_p_node) + getDistance(*_p_node, *_p_targetNode) < _p_node->cost)
         {
-            _p_node->cost = _p_parentNode->cost + getDistance(*_p_parentNode, *_p_node) + getDistance(*_p_node, *_p_targetNode);
+            _p_node->cost = (_p_parentNode->cost - getDistance(*_p_parentNode, *_p_targetNode)) + getDistance(*_p_parentNode, *_p_node) + getDistance(*_p_node, *_p_targetNode);
             _p_node->pX = _p_parentNode->x;
             _p_node->pY = _p_parentNode->y;
             addToList(_p_openList, _p_node);
@@ -117,9 +117,9 @@ void dealWithNode(list_s** _p_openList, node_s* _p_node, node_s* _p_parentNode, 
 void getPath(node_s*_p_finalNode, node_s** p_table)
 {
     //printf("x=%d y=%d\n",_p_finalNode->x, _p_finalNode->y);
-    while((_p_finalNode->x != 75) || (_p_finalNode->y != 0))
+    while((_p_finalNode->x != (TABLE_LENGTH/GRID_SIZE)/2) || (_p_finalNode->y != 0))
     {
-        printf("px= %d, py= %d\n", _p_finalNode->pX, _p_finalNode->pY);
+        //printf("px= %d, py= %d\n", _p_finalNode->pX, _p_finalNode->pY);
         _p_finalNode->nodeType = FINAL_TRAJ; 
         _p_finalNode = &p_table[_p_finalNode->pX][_p_finalNode->pY];
     }

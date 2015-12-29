@@ -40,6 +40,11 @@ void setPoint(node_s** _p_table, int _x, int _y, nodeType_e _nodeType)
 
 void setRectangle(node_s** _p_table, int _xDimension, int _yDimension, int _xPosition, int _yPosition, nodeType_e _nodeType)
 {
+    if(_xDimension == 0)
+        _xDimension = 1;
+    if(_yDimension == 0)
+        _yDimension = 1;
+
     for(int x = _xPosition; x < _xDimension + _xPosition; x++)
     {
         for(int y = _yPosition ; y < _yDimension + _yPosition; y++)
@@ -51,6 +56,9 @@ void setRectangle(node_s** _p_table, int _xDimension, int _yDimension, int _xPos
 
 void setCircle(node_s** _p_table, int _xCenter, int _yCenter, int _radius, nodeType_e _nodeType)
 {
+    if(_radius == 0)
+        _radius = 1;
+
     double xMax = 0.0;
     for(int y = _yCenter; y < _yCenter + _radius; y++)
     {
