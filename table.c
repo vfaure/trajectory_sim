@@ -19,9 +19,9 @@ node_s** createTable(int _length, int _width)
 
 void initialiseTable(node_s** _table, int _length, int _width)
 {
-    for(int i = 0; i < _width; i++)
+    for(int i = 0; i < _length; i++)
     {
-        for(int j = 0; j < _length; j++)
+        for(int j = 0; j < _width; j++)
         {
             _table[i][j].x = i;
             _table[i][j].y = j;
