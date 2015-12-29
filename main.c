@@ -30,24 +30,24 @@ int main(int argc, const char* argv[])
     setCircle(p_table, 299/GRID_SIZE, 199/GRID_SIZE, 25/GRID_SIZE, OBSTACLE); 
 
     //Open list
-    list_s* p_openList = (list_s*)malloc(sizeof(list_s));
+    list_s* p_openList = NULL; 
     node_s* p_currentNode = &p_table[75][0];
 
-    while(p_currentNode != &p_table[75][99])
+    while(p_currentNode != &p_table[149][2])
     {
-        printf("current node x=%d, y=%d \n", p_currentNode->x, p_currentNode->y);
+        //printf("current node x=%d, y=%d \n", p_currentNode->x, p_currentNode->y);
         //Treat adjacent node
-        for(int i=p_currentNode->x-1; i<p_currentNode->x+1; i++)
+        for(int i=p_currentNode->x-1; i<=p_currentNode->x+1; i++)
         {
-            for(int j=p_currentNode->y-1; j<p_currentNode->y+1; j++)
+            for(int j=p_currentNode->y-1; j<=p_currentNode->y+1; j++)
             {
-                if((i>=0) && (j>=0) && (i<(TABLE_LENGTH/GRID_SIZE)) && (j<(TABLE_WIDTH/GRID_SIZE)) && (i!=p_currentNode->x)&& (j!=p_currentNode->y))
+                //printf("i=%d, j=%d\n", i, j);
+                if((i>=0) && (j>=0) && (i<(TABLE_LENGTH/GRID_SIZE)) && (j<(TABLE_WIDTH/GRID_SIZE)) && ((i != p_currentNode->x) || (j!=p_currentNode->y)))
                 {
-                    dealWithNode(p_openList, &p_table[i][j], p_currentNode);
+                    dealWithNode(&p_openList, &p_table[i][j], p_currentNode, &p_table[149][2]);
                 }
             }
         }
-        printf("Valeur du pointeur: %d \n", (int)p_openList->p_node);
         if(p_openList->p_node != NULL)
         {
             p_openList->p_node->nodeType = CLOSED_LIST;
@@ -60,6 +60,8 @@ int main(int argc, const char* argv[])
             break;
         }
     }
+    
+    getPath(p_currentNode, p_table);
 
     init_map();
     draw_map(p_table, TABLE_LENGTH/GRID_SIZE, TABLE_WIDTH/GRID_SIZE, 2);
