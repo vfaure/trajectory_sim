@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "algo.h"
 
-#define GRID_SIZE 5
+#define GRID_SIZE 2
 #define TABLE_LENGTH 300
 #define TABLE_WIDTH 200
 
