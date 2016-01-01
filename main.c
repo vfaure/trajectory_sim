@@ -29,8 +29,8 @@ int main(int argc, const char* argv[])
     setCircle(p_table, 0/GRID_SIZE, 199/GRID_SIZE, 25/GRID_SIZE, OBSTACLE); 
     setCircle(p_table, 299/GRID_SIZE, 199/GRID_SIZE, 25/GRID_SIZE, OBSTACLE); 
 
-    setStartNode(p_table, 0, 50);
-    setTargetNode(p_table, 149, 50);
+    setStartNode(p_table, 0, TABLE_WIDTH/GRID_SIZE/2);
+    setTargetNode(p_table, TABLE_LENGTH/GRID_SIZE - 1, TABLE_WIDTH/GRID_SIZE/2);
     //setStartNode(p_table, 75, 0);
     //setTargetNode(p_table, 75, 4);
     startMainLoop(p_table);

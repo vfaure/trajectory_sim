@@ -19,7 +19,7 @@ typedef struct
     uint8_t x;
     uint8_t y;
     uint8_t nodeType; //is a nodeType_e cast in uint8_t to be sure of the size
-    uint32_t cost;
+    float cost;
     uint8_t pX;
     uint8_t pY;
 }node_s;
@@ -38,7 +38,7 @@ void addToList(list_s** _p_list, node_s* _p_node);
 int removeFromList(list_s* _p_list, node_s* _p_node);
 void setStartNode(node_s** _p_table, uint8_t _x, uint8_t _y);
 void setTargetNode(node_s** _p_table, uint8_t _x, uint8_t _y);
-uint32_t getDistance(node_s* _p_source, node_s* _p_dest);
+float getDistance(node_s* _p_source, node_s* _p_dest);
 void getPath(node_s* _p_finalNode, node_s** _p_table);
 
 

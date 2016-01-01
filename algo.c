@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "algo.h"
 #include "table.h"
 
@@ -47,9 +48,9 @@ void startMainLoop(node_s** _p_table)
 }
 
 // square of the distance to use integer
-uint32_t getDistance(node_s *_p_source, node_s *_p_dest)
+float getDistance(node_s *_p_source, node_s *_p_dest)
 {
-    return ((_p_dest->y - _p_source->y)*(_p_dest->y - _p_source->y) + (_p_dest->x - _p_source->x)*(_p_dest->x - _p_source->x));
+    return sqrt((_p_dest->y - _p_source->y)*(_p_dest->y - _p_source->y) + (_p_dest->x - _p_source->x)*(_p_dest->x - _p_source->x));
 }
 
 void addToList(list_s** _p_list, node_s* _p_node)
