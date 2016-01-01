@@ -36,9 +36,9 @@ void startMainLoop(node_s** _p_table);
 void computeNode(list_s** _p_openList, node_s* _p_node, node_s* _p_parentNode);
 void addToList(list_s** _p_list, node_s* _p_node);
 int removeFromList(list_s* _p_list, node_s* _p_node);
-void setStartNode(node_s** _p_table, uint8_t _x, uint8_t _y);
-void setTargetNode(node_s** _p_table, uint8_t _x, uint8_t _y);
 uint32_t getDistance(node_s* _p_source, node_s* _p_dest);
+uint8_t setStartNode(node_s** _p_table, uint8_t _x, uint8_t _y);
+uint8_t setTargetNode(node_s** _p_table, uint8_t _x, uint8_t _y);
 void getPath(node_s* _p_finalNode, node_s** _p_table);
 
 

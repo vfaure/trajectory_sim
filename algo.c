@@ -169,12 +169,30 @@ void getPath(node_s*_p_finalNode, node_s** p_table)
     _p_finalNode->nodeType = FINAL_TRAJ; 
 }
 
-void setStartNode(node_s** _p_table, uint8_t _x, uint8_t _y)
+uint8_t setStartNode(node_s** _p_table, uint8_t _x, uint8_t _y)
 {
-    g_startNode = &_p_table[_x][_y];
+    if(_p_table[_x][_y].nodeType != OBSTACLE)
+    {
+        g_startNode = &_p_table[_x][_y];
+        return 0;
+    }
+    else
+    {
+        printf("Starting point is an obstacle");
+        return 1;
+    }
 }
 
-void setTargetNode(node_s** _p_table, uint8_t _x, uint8_t _y)
+uint8_t setTargetNode(node_s** _p_table, uint8_t _x, uint8_t _y)
 {
-    g_targetNode = &_p_table[_x][_y];
+    if(_p_table[_x][_y].nodeType != OBSTACLE)
+    {
+        g_targetNode = &_p_table[_x][_y];
+        return 0;
+    }
+    else
+    {
+        printf("Target point is an obstacle");
+        return 1;
+    }
 }
