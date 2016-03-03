@@ -40,7 +40,7 @@ void startMainLoop(node_s** _p_table)
         }
         else
         {
-            printf("No solution!\n");
+            TRACE_INFO("No solution!\n");
             break;
         }
     }
