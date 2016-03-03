@@ -5,6 +5,8 @@
 
 #if DEBUG
 #define TRACE_DEBUG(fmt, args ...) printf("[DEBUG] %s(%d): "fmt"\n",__FUNCTION__, __LINE__, ##args) 
+#else
+#define TRACE_DEBUG(fmt, args ...) do {} while(0)
 #endif
 
 #define TRACE_ERR(fmt, args ...) printf("[ERR] %s(%d): "fmt"\n",__FUNCTION__, __LINE__, ##args) 

@@ -5,20 +5,15 @@
 
 #include "map.h"
 
-void init_map()
+SDL_Surface* init_map(int _length, int _width, int _coef)
 {
-    printf("Init map\n");
+    TRACE_INFO("Init map\n");
     if (SDL_Init(SDL_INIT_VIDEO) == -1)
     {
-        fprintf(stderr, "Erreur d'initialisation de la SDL : %s\n", SDL_GetError());
+        TRACE_ERR("Erreur d'initialisation de la SDL : %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     }
-}
 
-void draw_map(node_s** _p_table, int _length, int _width, int _coef)
-{
-    printf("Draw map\n");
-    
     //Draw the table
     SDL_Surface *screen = NULL;
     screen = SDL_SetVideoMode(_length*_coef*GRID_SIZE, _width*_coef*GRID_SIZE, 32, SDL_HWSURFACE);
@@ -80,6 +75,14 @@ void draw_map(node_s** _p_table, int _length, int _width, int _coef)
     pos.y = 200;
     SDL_BlitSurface(surface , NULL, screen, &pos);
 
+    SDL_Flip(screen);
+
+    return screen;
+}
+
+void draw_map(node_s** _p_table, int _length, int _width, int _coef, SDL_Surface* screen)
+{
+    TRACE_INFO("Draw map\n");
 
     //Set occupancy grid
     SDL_Surface* unitarySurface =  SDL_CreateRGBSurface(SDL_HWSURFACE, _coef*GRID_SIZE, _coef*GRID_SIZE, 32, 0, 0, 0, 0);
@@ -124,6 +127,47 @@ void draw_map(node_s** _p_table, int _length, int _width, int _coef)
         }
     }
     SDL_Flip(screen);
+}
+
+void draw_unitary_surface(node_s _node, int _coef, SDL_Surface* _p_screen)
+{
+    //Set occupancy grid
+    SDL_Surface* unitarySurface =  SDL_CreateRGBSurface(SDL_HWSURFACE, _coef*GRID_SIZE, _coef*GRID_SIZE, 32, 0, 0, 0, 0);
+    SDL_Rect unitarySurfacePosition;
+    
+    if(_node.nodeType == OBSTACLE)
+    {
+        //draw occupied
+        SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(_p_screen->format, 0, 0, 0));
+        unitarySurfacePosition.x = _node.x * _coef* GRID_SIZE;
+        unitarySurfacePosition.y = _node.y * _coef* GRID_SIZE;     
+        SDL_BlitSurface(unitarySurface, NULL, _p_screen, &unitarySurfacePosition);
+    }
+    if(_node.nodeType == OPEN_LIST)
+    {
+        //draw OPEN_LIST
+        SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(_p_screen->format, 248, 168, 15));
+        unitarySurfacePosition.x = _node.x * _coef* GRID_SIZE;
+        unitarySurfacePosition.y = _node.y * _coef* GRID_SIZE;     
+        SDL_BlitSurface(unitarySurface, NULL, _p_screen, &unitarySurfacePosition);
+    }
+    if(_node.nodeType == CLOSED_LIST)
+    {
+        //draw CLOSED_LIST
+        SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(_p_screen->format, 244, 18, 7));
+        unitarySurfacePosition.x = _node.x * _coef* GRID_SIZE;
+        unitarySurfacePosition.y = _node.y * _coef* GRID_SIZE;     
+        SDL_BlitSurface(unitarySurface, NULL, _p_screen, &unitarySurfacePosition);
+    }
+    if(_node.nodeType == FINAL_TRAJ)
+    {
+        //draw FINAL_TRAJ
+        SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(_p_screen->format, 13, 183, 0));
+        unitarySurfacePosition.x = _node.x * _coef* GRID_SIZE;
+        unitarySurfacePosition.y = _node.y * _coef* GRID_SIZE;     
+        SDL_BlitSurface(unitarySurface, NULL, _p_screen, &unitarySurfacePosition);
+    }
+    SDL_Flip(_p_screen);
 }
 
 void quit_map()

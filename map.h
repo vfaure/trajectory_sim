@@ -5,9 +5,11 @@
 #include <SDL/SDL.h>
 #include "algo.h"
 #include "table.h"
+#include "traces.h"
 
-void init_map();
-void draw_map(node_s ** _p_table, int _length, int _width, int _coef);
+SDL_Surface* init_map(int _length, int _width, int _coef);
+void draw_map(node_s ** _p_table, int _length, int _width, int _coef, SDL_Surface* screen);
+void draw_unitary_surface(node_s _node, int _coef, SDL_Surface* _p_screen);
 void quit_map();
 void sdl_pause();
 

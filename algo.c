@@ -1,16 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+
 #include "algo.h"
 #include "table.h"
 #include "traces.h"
+#include "map.h"
 
 //Start Node
 static node_s* g_startNode = NULL; 
 static node_s* g_targetNode = NULL;
 
 //Main loop
-void startMainLoop(node_s** _p_table)
+void startMainLoop(node_s** _p_table, SDL_Surface* _p_screen, int _coef)
 {
     //Open list
     list_s* p_openList = NULL; 
@@ -19,16 +21,17 @@ void startMainLoop(node_s** _p_table)
 
     while(p_currentNode != g_targetNode)
     {
-        //printf("current node x=%d, y=%d \n", p_currentNode->x, p_currentNode->y);
+        TRACE_DEBUG("current node x=%d, y=%d \n", p_currentNode->x, p_currentNode->y);
         //Treat adjacent node
         for(int i=p_currentNode->x-1; i<=p_currentNode->x+1; i++)
         {
             for(int j=p_currentNode->y-1; j<=p_currentNode->y+1; j++)
             {
-                //printf("i=%d, j=%d\n", i, j);
+                TRACE_DEBUG("i=%d, j=%d\n", i, j);
                 if((i>=0) && (j>=0) && (i<(TABLE_LENGTH/GRID_SIZE)) && (j<(TABLE_WIDTH/GRID_SIZE)) && ((i != p_currentNode->x) || (j!=p_currentNode->y)))
                 {
                     computeNode(&p_openList, &_p_table[i][j], p_currentNode);
+                    draw_unitary_surface(_p_table[i][j], 2, _p_screen);
                 }
             }
         }
@@ -36,6 +39,7 @@ void startMainLoop(node_s** _p_table)
         {
             p_openList->p_node->nodeType = CLOSED_LIST;
             p_currentNode = p_openList->p_node;
+            draw_unitary_surface(*p_openList->p_node, 2, _p_screen);
             removeFromList(p_openList, p_openList->p_node);
         }
         else
@@ -45,7 +49,7 @@ void startMainLoop(node_s** _p_table)
         }
     }
     
-    getPath(p_currentNode, _p_table);
+    getPath(p_currentNode, _p_table, _p_screen);
 }
 
 // square of the distance to use integer
@@ -159,16 +163,18 @@ void computeNode(list_s** _p_openList, node_s* _p_node, node_s* _p_parentNode)
         ;//Do nothing for all other cases
 }
 
-void getPath(node_s*_p_finalNode, node_s** p_table)
+void getPath(node_s*_p_finalNode, node_s** p_table, SDL_Surface* _p_screen)
 {
     //printf("x=%d y=%d\n",_p_finalNode->x, _p_finalNode->y);
     while((_p_finalNode->x !=  g_startNode->x) || (_p_finalNode->y != g_startNode->y))
     {
         TRACE_DEBUG("px= %d, py= %d\n", _p_finalNode->pX, _p_finalNode->pY);
         _p_finalNode->nodeType = FINAL_TRAJ; 
+        draw_unitary_surface(*_p_finalNode, 2, _p_screen);
         _p_finalNode = &p_table[_p_finalNode->pX][_p_finalNode->pY];
     }
     _p_finalNode->nodeType = FINAL_TRAJ; 
+    draw_unitary_surface(*_p_finalNode, 2, _p_screen);
 }
 
 uint8_t setStartNode(node_s** _p_table, uint8_t _x, uint8_t _y)
