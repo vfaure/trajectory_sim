@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "algo.h"
 #include "table.h"
+#include "traces.h"
 
 //Start Node
 static node_s* g_startNode = NULL; 
@@ -162,7 +163,7 @@ void getPath(node_s*_p_finalNode, node_s** p_table)
     //printf("x=%d y=%d\n",_p_finalNode->x, _p_finalNode->y);
     while((_p_finalNode->x !=  g_startNode->x) || (_p_finalNode->y != g_startNode->y))
     {
-        //printf("px= %d, py= %d\n", _p_finalNode->pX, _p_finalNode->pY);
+        TRACE_DEBUG("px= %d, py= %d\n", _p_finalNode->pX, _p_finalNode->pY);
         _p_finalNode->nodeType = FINAL_TRAJ; 
         _p_finalNode = &p_table[_p_finalNode->pX][_p_finalNode->pY];
     }
