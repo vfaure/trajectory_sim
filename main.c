@@ -7,6 +7,9 @@
 
 int main(int argc, const char* argv[])
 {
+    if(argc != 5)
+        return EXIT_FAILURE;
+            
     SDL_Surface* p_screen = init_map(TABLE_LENGTH/GRID_SIZE, TABLE_WIDTH/GRID_SIZE, 2);
     //Create the table
     node_s ** p_table = NULL;
@@ -30,10 +33,8 @@ int main(int argc, const char* argv[])
     setCircle(p_table, 0/GRID_SIZE, 199/GRID_SIZE, 25/GRID_SIZE, OBSTACLE); 
     setCircle(p_table, 299/GRID_SIZE, 199/GRID_SIZE, 25/GRID_SIZE, OBSTACLE); 
 
-    //if(!setStartNode(p_table, 0, TABLE_WIDTH/GRID_SIZE/2))
-    //    if(!setTargetNode(p_table, TABLE_LENGTH/GRID_SIZE - 1, TABLE_WIDTH/GRID_SIZE/2))
-    if(!setStartNode(p_table, 0, TABLE_WIDTH/GRID_SIZE/2))
-        if(!setTargetNode(p_table, TABLE_LENGTH/GRID_SIZE - 20, TABLE_WIDTH/GRID_SIZE/2))
+    if(!setStartNode(p_table, atoi(argv[1]), atoi(argv[2])))
+        if(!setTargetNode(p_table, atoi(argv[3]), atoi(argv[4])))
             startMainLoop(p_table, p_screen, 2);
 
     //draw_map(p_table, TABLE_LENGTH/GRID_SIZE, TABLE_WIDTH/GRID_SIZE, 2, p_screen);

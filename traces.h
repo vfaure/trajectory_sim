@@ -1,7 +1,7 @@
 #ifndef _TRACES_H
 #define _TRACES_H
 
-#define DEBUG 1
+//#define DEBUG 1
 
 #if DEBUG
 #define TRACE_DEBUG(fmt, args ...) printf("[DEBUG] %s(%d): "fmt"\n",__FUNCTION__, __LINE__, ##args) 

@@ -44,7 +44,7 @@ void startMainLoop(node_s** _p_table, SDL_Surface* _p_screen, int _coef)
         }
         else
         {
-            printf("No solution!\n");
+            TRACE_INFO("No solution!\n");
             break;
         }
     }
@@ -177,25 +177,55 @@ void getPath(node_s*_p_finalNode, node_s** p_table, SDL_Surface* _p_screen)
     draw_unitary_surface(*_p_finalNode, 2, _p_screen);
 }
 
-uint8_t setStartNode(node_s** _p_table, uint8_t _x, uint8_t _y)
+uint8_t setStartNode(node_s** _p_table, uint16_t _x, uint16_t _y)
 {
-    if(_p_table[_x][_y].nodeType != OBSTACLE)
+    uint8_t xGrid, yGrid;
+    //Test if start node is on the table and convert it on the grid
+    if((_x >= 0) && (_x <= (TABLE_LENGTH - 1)))
     {
-        g_startNode = &_p_table[_x][_y];
+        if((_y >= 0) && (_y <= (TABLE_WIDTH -1)))
+        {
+            xGrid = _x/GRID_SIZE;   
+            yGrid = _y/GRID_SIZE;
+        }
+        else
+            return 2;
+    }
+    else
+        return 2;
+
+    if(_p_table[xGrid][yGrid].nodeType != OBSTACLE)
+    {
+        g_startNode = &_p_table[xGrid][yGrid];
         return 0;
     }
     else
     {
-        printf("Starting point is an obstacle");
+        TRACE_ERR("Starting point is an obstacle");
         return 1;
     }
 }
 
-uint8_t setTargetNode(node_s** _p_table, uint8_t _x, uint8_t _y)
+uint8_t setTargetNode(node_s** _p_table, uint16_t _x, uint16_t _y)
 {
-    if(_p_table[_x][_y].nodeType != OBSTACLE)
+    uint8_t xGrid, yGrid;
+    //Test if start node is on the table and convert it on the grid
+    if((_x >= 0) && (_x <= (TABLE_LENGTH - 1)))
     {
-        g_targetNode = &_p_table[_x][_y];
+        if((_y >= 0) && (_y <= (TABLE_WIDTH -1)))
+        {
+            xGrid = _x/GRID_SIZE;   
+            yGrid = _y/GRID_SIZE;
+        }
+        else
+            return 2;
+    }
+    else
+        return 2;
+
+    if(_p_table[xGrid][yGrid].nodeType != OBSTACLE)
+    {
+        g_targetNode = &_p_table[xGrid][yGrid];
         return 0;
     }
     else
