@@ -163,18 +163,22 @@ void computeNode(list_s** _p_openList, node_s* _p_node, node_s* _p_parentNode)
         ;//Do nothing for all other cases
 }
 
-void getPath(node_s*_p_finalNode, node_s** p_table, SDL_Surface* _p_screen)
+list_s* getPath(node_s*_p_finalNode, node_s** p_table, SDL_Surface* _p_screen)
 {
-    //printf("x=%d y=%d\n",_p_finalNode->x, _p_finalNode->y);
+    TRACE_DEBUG("x=%d y=%d\n",_p_finalNode->x, _p_finalNode->y);
+    list_s* finalTraj = NULL;
     while((_p_finalNode->x !=  g_startNode->x) || (_p_finalNode->y != g_startNode->y))
     {
         TRACE_DEBUG("px= %d, py= %d\n", _p_finalNode->pX, _p_finalNode->pY);
         _p_finalNode->nodeType = FINAL_TRAJ; 
         draw_unitary_surface(*_p_finalNode, 2, _p_screen);
+        addToList(&finalTraj, _p_finalNode);
         _p_finalNode = &p_table[_p_finalNode->pX][_p_finalNode->pY];
+
     }
     _p_finalNode->nodeType = FINAL_TRAJ; 
     draw_unitary_surface(*_p_finalNode, 2, _p_screen);
+    return finalTraj;
 }
 
 uint8_t setStartNode(node_s** _p_table, uint16_t _x, uint16_t _y)
