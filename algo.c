@@ -31,7 +31,9 @@ void startMainLoop(node_s** _p_table, SDL_Surface* _p_screen, int _coef)
                 if((i>=0) && (j>=0) && (i<(TABLE_LENGTH/GRID_SIZE)) && (j<(TABLE_WIDTH/GRID_SIZE)) && ((i != p_currentNode->x) || (j!=p_currentNode->y)))
                 {
                     computeNode(&p_openList, &_p_table[i][j], p_currentNode);
+#if DYNAMIC_PRINTING
                     draw_unitary_surface(_p_table[i][j], 2, _p_screen);
+#endif
                 }
             }
         }
@@ -39,7 +41,9 @@ void startMainLoop(node_s** _p_table, SDL_Surface* _p_screen, int _coef)
         {
             p_openList->p_node->nodeType = CLOSED_LIST;
             p_currentNode = p_openList->p_node;
+#if DYNAMIC_PRINTING
             draw_unitary_surface(*p_openList->p_node, 2, _p_screen);
+#endif
             removeFromList(p_openList, p_openList->p_node);
         }
         else
@@ -165,20 +169,36 @@ void computeNode(list_s** _p_openList, node_s* _p_node, node_s* _p_parentNode)
 
 list_s* getPath(node_s*_p_finalNode, node_s** p_table, SDL_Surface* _p_screen)
 {
-    TRACE_DEBUG("x=%d y=%d\n",_p_finalNode->x, _p_finalNode->y);
+    TRACE_INFO("x=%d y=%d\n",_p_finalNode->x, _p_finalNode->y);
     list_s* finalTraj = NULL;
     while((_p_finalNode->x !=  g_startNode->x) || (_p_finalNode->y != g_startNode->y))
     {
-        TRACE_DEBUG("px= %d, py= %d\n", _p_finalNode->pX, _p_finalNode->pY);
+        TRACE_INFO("px= %d, py= %d\n", _p_finalNode->pX, _p_finalNode->pY);
         _p_finalNode->nodeType = FINAL_TRAJ; 
+#if DYNAMIC_PRINTING
         draw_unitary_surface(*_p_finalNode, 2, _p_screen);
+#endif
         addToList(&finalTraj, _p_finalNode);
         _p_finalNode = &p_table[_p_finalNode->pX][_p_finalNode->pY];
 
     }
     _p_finalNode->nodeType = FINAL_TRAJ; 
+#if DYNAMIC_PRINTING
     draw_unitary_surface(*_p_finalNode, 2, _p_screen);
+#endif
     return finalTraj;
+}
+
+list_s* extractTraj(list_s* _p_finalList)
+{
+    return NULL;
+    //uint8_t x_0, y_0, x_1, y_1;
+    //x_0 = _p_finalList->p_node->x;
+    //y_0 = _p_finalList->p_node->y;
+    //while(_p_finalList->p_nextElement != NULL)
+    //{
+
+    //}
 }
 
 uint8_t setStartNode(node_s** _p_table, uint16_t _x, uint16_t _y)

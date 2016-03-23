@@ -42,6 +42,7 @@ float getDistance(node_s* _p_source, node_s* _p_dest);
 uint8_t setStartNode(node_s** _p_table, uint16_t _x, uint16_t _y);
 uint8_t setTargetNode(node_s** _p_table, uint16_t _x, uint16_t _y);
 list_s* getPath(node_s* _p_finalNode, node_s** _p_table, SDL_Surface* _p_screen);
+list_s* extractTraj(list_s* _p_finalList);
 
 
 #endif //_ALGO_H
