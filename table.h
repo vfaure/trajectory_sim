@@ -7,7 +7,7 @@
 #define GRID_SIZE 5
 #define TABLE_LENGTH 300
 #define TABLE_WIDTH 200
-#define DYNAMIC_PRINTING 1
+#define DYNAMIC_PRINTING 0
 
 node_s** createTable(int _length, int _width);
 void initialiseTable(node_s** _table, int _length, int _width);
