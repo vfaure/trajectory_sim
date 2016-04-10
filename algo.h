@@ -3,11 +3,14 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <SDL/SDL.h>
+//#include "map.h"
 
 typedef enum
 {
     NEW_NODE = 0,
     OBSTACLE,
+    SOFT_OBSTACLE,
     CLOSED_LIST,
     FINAL_TRAJ,
     OPEN_LIST,
@@ -19,7 +22,7 @@ typedef struct
     uint8_t x;
     uint8_t y;
     uint8_t nodeType; //is a nodeType_e cast in uint8_t to be sure of the size
-    uint32_t cost;
+    float cost;
     uint8_t pX;
     uint8_t pY;
 }node_s;
@@ -32,14 +35,15 @@ struct list
     list_s* p_nextElement;
 };
 
-void startMainLoop(node_s** _p_table);
+void startMainLoop(node_s** _p_table, SDL_Surface* _p_screen, int _coef);
 void computeNode(list_s** _p_openList, node_s* _p_node, node_s* _p_parentNode);
 void addToList(list_s** _p_list, node_s* _p_node);
 int removeFromList(list_s* _p_list, node_s* _p_node);
-uint32_t getDistance(node_s* _p_source, node_s* _p_dest);
-uint8_t setStartNode(node_s** _p_table, uint8_t _x, uint8_t _y);
-uint8_t setTargetNode(node_s** _p_table, uint8_t _x, uint8_t _y);
-void getPath(node_s* _p_finalNode, node_s** _p_table);
+float getDistance(node_s* _p_source, node_s* _p_dest);
+uint8_t setStartNode(node_s** _p_table, uint16_t _x, uint16_t _y);
+uint8_t setTargetNode(node_s** _p_table, uint16_t _x, uint16_t _y);
+list_s* getPath(node_s* _p_finalNode, node_s** _p_table, SDL_Surface* _p_screen);
+list_s* extractTraj(list_s* _p_finalList);
 
 
 #endif //_ALGO_H

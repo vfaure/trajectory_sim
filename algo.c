@@ -1,15 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+
 #include "algo.h"
 #include "table.h"
 #include "traces.h"
+#include "map.h"
 
 //Start Node
 static node_s* g_startNode = NULL; 
 static node_s* g_targetNode = NULL;
 
 //Main loop
-void startMainLoop(node_s** _p_table)
+void startMainLoop(node_s** _p_table, SDL_Surface* _p_screen, int _coef)
 {
     //Open list
     list_s* p_openList = NULL; 
@@ -18,16 +21,19 @@ void startMainLoop(node_s** _p_table)
 
     while(p_currentNode != g_targetNode)
     {
-        //printf("current node x=%d, y=%d \n", p_currentNode->x, p_currentNode->y);
+        TRACE_DEBUG("current node x=%d, y=%d \n", p_currentNode->x, p_currentNode->y);
         //Treat adjacent node
         for(int i=p_currentNode->x-1; i<=p_currentNode->x+1; i++)
         {
             for(int j=p_currentNode->y-1; j<=p_currentNode->y+1; j++)
             {
-                //printf("i=%d, j=%d\n", i, j);
+                TRACE_DEBUG("i=%d, j=%d\n", i, j);
                 if((i>=0) && (j>=0) && (i<(TABLE_LENGTH/GRID_SIZE)) && (j<(TABLE_WIDTH/GRID_SIZE)) && ((i != p_currentNode->x) || (j!=p_currentNode->y)))
                 {
                     computeNode(&p_openList, &_p_table[i][j], p_currentNode);
+#if DYNAMIC_PRINTING
+                    draw_unitary_surface(_p_table[i][j], 2, _p_screen);
+#endif
                 }
             }
         }
@@ -35,22 +41,25 @@ void startMainLoop(node_s** _p_table)
         {
             p_openList->p_node->nodeType = CLOSED_LIST;
             p_currentNode = p_openList->p_node;
+#if DYNAMIC_PRINTING
+            draw_unitary_surface(*p_openList->p_node, 2, _p_screen);
+#endif
             removeFromList(p_openList, p_openList->p_node);
         }
         else
         {
-            printf("No solution!\n");
+            TRACE_INFO("No solution!\n");
             break;
         }
     }
     
-    getPath(p_currentNode, _p_table);
+    getPath(p_currentNode, _p_table, _p_screen);
 }
 
 // square of the distance to use integer
-uint32_t getDistance(node_s *_p_source, node_s *_p_dest)
+float getDistance(node_s *_p_source, node_s *_p_dest)
 {
-    return ((_p_dest->y - _p_source->y)*(_p_dest->y - _p_source->y) + (_p_dest->x - _p_source->x)*(_p_dest->x - _p_source->x));
+    return sqrt((_p_dest->y - _p_source->y)*(_p_dest->y - _p_source->y) + (_p_dest->x - _p_source->x)*(_p_dest->x - _p_source->x));
 }
 
 void addToList(list_s** _p_list, node_s* _p_node)
@@ -158,37 +167,89 @@ void computeNode(list_s** _p_openList, node_s* _p_node, node_s* _p_parentNode)
         ;//Do nothing for all other cases
 }
 
-void getPath(node_s*_p_finalNode, node_s** p_table)
+list_s* getPath(node_s*_p_finalNode, node_s** p_table, SDL_Surface* _p_screen)
 {
-    //printf("x=%d y=%d\n",_p_finalNode->x, _p_finalNode->y);
+    TRACE_INFO("x=%d y=%d\n",_p_finalNode->x, _p_finalNode->y);
+    list_s* finalTraj = NULL;
     while((_p_finalNode->x !=  g_startNode->x) || (_p_finalNode->y != g_startNode->y))
     {
-        TRACE_DEBUG("px= %d, py= %d\n", _p_finalNode->pX, _p_finalNode->pY);
+        TRACE_INFO("px= %d, py= %d\n", _p_finalNode->pX, _p_finalNode->pY);
         _p_finalNode->nodeType = FINAL_TRAJ; 
+#if DYNAMIC_PRINTING
+        draw_unitary_surface(*_p_finalNode, 2, _p_screen);
+#endif
+        addToList(&finalTraj, _p_finalNode);
         _p_finalNode = &p_table[_p_finalNode->pX][_p_finalNode->pY];
+
     }
     _p_finalNode->nodeType = FINAL_TRAJ; 
+#if DYNAMIC_PRINTING
+    draw_unitary_surface(*_p_finalNode, 2, _p_screen);
+#endif
+    return finalTraj;
 }
 
-uint8_t setStartNode(node_s** _p_table, uint8_t _x, uint8_t _y)
+list_s* extractTraj(list_s* _p_finalList)
 {
-    if(_p_table[_x][_y].nodeType != OBSTACLE)
+    return NULL;
+    //uint8_t x_0, y_0, x_1, y_1;
+    //x_0 = _p_finalList->p_node->x;
+    //y_0 = _p_finalList->p_node->y;
+    //while(_p_finalList->p_nextElement != NULL)
+    //{
+
+    //}
+}
+
+uint8_t setStartNode(node_s** _p_table, uint16_t _x, uint16_t _y)
+{
+    uint8_t xGrid, yGrid;
+    //Test if start node is on the table and convert it on the grid
+    if((_x >= 0) && (_x <= (TABLE_LENGTH - 1)))
     {
-        g_startNode = &_p_table[_x][_y];
+        if((_y >= 0) && (_y <= (TABLE_WIDTH -1)))
+        {
+            xGrid = _x/GRID_SIZE;   
+            yGrid = _y/GRID_SIZE;
+        }
+        else
+            return 2;
+    }
+    else
+        return 2;
+
+    if(_p_table[xGrid][yGrid].nodeType != OBSTACLE)
+    {
+        g_startNode = &_p_table[xGrid][yGrid];
         return 0;
     }
     else
     {
-        printf("Starting point is an obstacle");
+        TRACE_ERR("Starting point is an obstacle");
         return 1;
     }
 }
 
-uint8_t setTargetNode(node_s** _p_table, uint8_t _x, uint8_t _y)
+uint8_t setTargetNode(node_s** _p_table, uint16_t _x, uint16_t _y)
 {
-    if(_p_table[_x][_y].nodeType != OBSTACLE)
+    uint8_t xGrid, yGrid;
+    //Test if start node is on the table and convert it on the grid
+    if((_x >= 0) && (_x <= (TABLE_LENGTH - 1)))
     {
-        g_targetNode = &_p_table[_x][_y];
+        if((_y >= 0) && (_y <= (TABLE_WIDTH -1)))
+        {
+            xGrid = _x/GRID_SIZE;   
+            yGrid = _y/GRID_SIZE;
+        }
+        else
+            return 2;
+    }
+    else
+        return 2;
+
+    if(_p_table[xGrid][yGrid].nodeType != OBSTACLE)
+    {
+        g_targetNode = &_p_table[xGrid][yGrid];
         return 0;
     }
     else
