@@ -11,6 +11,7 @@ typedef enum
     NEW_NODE = 0,
     OBSTACLE,
     SOFT_OBSTACLE,
+    FORBIDDEN,
     CLOSED_LIST,
     FINAL_TRAJ,
     OPEN_LIST,

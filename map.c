@@ -100,10 +100,18 @@ void draw_map(node_s** _p_table, int _length, int _width, int _coef, SDL_Surface
                 unitarySurfacePosition.y = y * _coef* GRID_SIZE;     
                 SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
             }
+            if(_p_table[x][y].nodeType == FORBIDDEN)
+            {
+                //draw Soft_obstacle
+                SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 28, 28, 28));
+                unitarySurfacePosition.x = x * _coef* GRID_SIZE;
+                unitarySurfacePosition.y = y * _coef* GRID_SIZE;     
+                SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
+            }
             if(_p_table[x][y].nodeType == SOFT_OBSTACLE)
             {
-                //draw occupied
-                SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 28, 28, 28));
+                //draw Soft_obstacle
+                SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 121, 121, 121));
                 unitarySurfacePosition.x = x * _coef* GRID_SIZE;
                 unitarySurfacePosition.y = y * _coef* GRID_SIZE;     
                 SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
@@ -151,10 +159,18 @@ void draw_unitary_surface(node_s _node, int _coef, SDL_Surface* _p_screen)
         unitarySurfacePosition.y = _node.y * _coef* GRID_SIZE;     
         SDL_BlitSurface(unitarySurface, NULL, _p_screen, &unitarySurfacePosition);
     }
-    if(_node.nodeType == SOFT_OBSTACLE)
+    if(_node.nodeType == FORBIDDEN)
     {
         //draw occupied
         SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(_p_screen->format, 28, 28, 28));
+        unitarySurfacePosition.x = _node.x * _coef* GRID_SIZE;
+        unitarySurfacePosition.y = _node.y * _coef* GRID_SIZE;     
+        SDL_BlitSurface(unitarySurface, NULL, _p_screen, &unitarySurfacePosition);
+    }
+    if(_node.nodeType == SOFT_OBSTACLE)
+    {
+        //draw occupied
+        SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(_p_screen->format, 121, 121, 121));
         unitarySurfacePosition.x = _node.x * _coef* GRID_SIZE;
         unitarySurfacePosition.y = _node.y * _coef* GRID_SIZE;     
         SDL_BlitSurface(unitarySurface, NULL, _p_screen, &unitarySurfacePosition);
