@@ -92,31 +92,7 @@ void draw_map(node_s** _p_table, int _length, int _width, int _coef, SDL_Surface
         for(int y = 0; y < _width; y++)
         {
             //printf("x= %d, y= %d \n", x, y);
-            if(_p_table[x][y].nodeType == OBSTACLE)
-            {
-                //draw occupied
-                SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
-                unitarySurfacePosition.x = x * _coef* GRID_SIZE;
-                unitarySurfacePosition.y = y * _coef* GRID_SIZE;     
-                SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
-            }
-            if(_p_table[x][y].nodeType == FORBIDDEN)
-            {
-                //draw Soft_obstacle
-                SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 28, 28, 28));
-                unitarySurfacePosition.x = x * _coef* GRID_SIZE;
-                unitarySurfacePosition.y = y * _coef* GRID_SIZE;     
-                SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
-            }
-            if(_p_table[x][y].nodeType == SOFT_OBSTACLE)
-            {
-                //draw Soft_obstacle
-                SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 121, 121, 121));
-                unitarySurfacePosition.x = x * _coef* GRID_SIZE;
-                unitarySurfacePosition.y = y * _coef* GRID_SIZE;     
-                SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
-            }
-            if(_p_table[x][y].nodeType == OPEN_LIST)
+            if((_p_table[x][y].nodeType & OPEN_LIST) == OPEN_LIST)
             {
                 //draw OPEN_LIST
                 SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 248, 168, 15));
@@ -124,7 +100,7 @@ void draw_map(node_s** _p_table, int _length, int _width, int _coef, SDL_Surface
                 unitarySurfacePosition.y = y * _coef* GRID_SIZE;     
                 SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
             }
-            if(_p_table[x][y].nodeType == CLOSED_LIST)
+            else if((_p_table[x][y].nodeType & CLOSED_LIST) == CLOSED_LIST)
             {
                 //draw CLOSED_LIST
                 SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 244, 18, 7));
@@ -132,10 +108,50 @@ void draw_map(node_s** _p_table, int _length, int _width, int _coef, SDL_Surface
                 unitarySurfacePosition.y = y * _coef* GRID_SIZE;     
                 SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
             }
-            if(_p_table[x][y].nodeType == FINAL_TRAJ)
+            else if((_p_table[x][y].nodeType & FINAL_TRAJ) == FINAL_TRAJ)
             {
                 //draw FINAL_TRAJ
                 SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 13, 183, 0));
+                unitarySurfacePosition.x = x * _coef* GRID_SIZE;
+                unitarySurfacePosition.y = y * _coef* GRID_SIZE;     
+                SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
+            }
+            else if((_p_table[x][y].nodeType & ROBOT) == ROBOT)
+            {
+                //draw ROBOT
+                SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
+                unitarySurfacePosition.x = x * _coef* GRID_SIZE;
+                unitarySurfacePosition.y = y * _coef* GRID_SIZE;     
+                SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
+            }
+            else if((_p_table[x][y].nodeType & TEMPORARY_ALLOWED) == TEMPORARY_ALLOWED)
+            {
+                //draw TEMPORARY_ALLOWED
+                //SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 13, 183, 0));
+                //unitarySurfacePosition.x = x * _coef* GRID_SIZE;
+                //unitarySurfacePosition.y = y * _coef* GRID_SIZE;     
+                //SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
+            }
+            else if(_p_table[x][y].nodeType == OBSTACLE)
+            {
+                //draw occupied
+                SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
+                unitarySurfacePosition.x = x * _coef* GRID_SIZE;
+                unitarySurfacePosition.y = y * _coef* GRID_SIZE;     
+                SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
+            }
+            else if(_p_table[x][y].nodeType == FORBIDDEN)
+            {
+                //draw Soft_obstacle
+                SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 28, 28, 28));
+                unitarySurfacePosition.x = x * _coef* GRID_SIZE;
+                unitarySurfacePosition.y = y * _coef* GRID_SIZE;     
+                SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);
+            }
+            else if(_p_table[x][y].nodeType == SOFT_OBSTACLE)
+            {
+                //draw Soft_obstacle
+                SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 121, 121, 121));
                 unitarySurfacePosition.x = x * _coef* GRID_SIZE;
                 unitarySurfacePosition.y = y * _coef* GRID_SIZE;     
                 SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);

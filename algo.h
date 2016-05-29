@@ -8,21 +8,22 @@
 
 typedef enum
 {
-    NEW_NODE = 0,
-    OBSTACLE,
-    SOFT_OBSTACLE,
-    FORBIDDEN,
-    CLOSED_LIST,
-    FINAL_TRAJ,
-    OPEN_LIST,
-    ROBOT
+    NEW_NODE = 0x100,
+    OBSTACLE = 0x200,
+    FORBIDDEN = 0x400, // Zone where the robot can't go
+    SOFT_OBSTACLE = 0x300, //Zone where the robot can eventually go but must be cautious when turning
+    CLOSED_LIST = 0x001,
+    FINAL_TRAJ = 0x002,
+    OPEN_LIST = 0x004,
+    ROBOT = 0x008,
+    TEMPORARY_ALLOWED = 0x010
 }nodeType_e;
 
 typedef struct
 {
     uint8_t x;
     uint8_t y;
-    uint8_t nodeType; //is a nodeType_e cast in uint8_t to be sure of the size
+    uint16_t nodeType; //is a nodeType_e cast in uint8_t to be sure of the size
     float cost;
     uint8_t pX;
     uint8_t pY;
