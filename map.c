@@ -119,7 +119,7 @@ void draw_map(node_s** _p_table, int _length, int _width, int _coef, SDL_Surface
             else if((_p_table[x][y].nodeType & ROBOT) == ROBOT)
             {
                 //draw ROBOT
-                SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
+                SDL_FillRect(unitarySurface, NULL, SDL_MapRGB(screen->format, 154, 0, 126));
                 unitarySurfacePosition.x = x * _coef* GRID_SIZE;
                 unitarySurfacePosition.y = y * _coef* GRID_SIZE;     
                 SDL_BlitSurface(unitarySurface, NULL, screen, &unitarySurfacePosition);

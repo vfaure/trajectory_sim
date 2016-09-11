@@ -8,15 +8,15 @@
 
 typedef enum
 {
-    NEW_NODE = 0x100,
-    OBSTACLE = 0x200,
-    FORBIDDEN = 0x400, // Zone where the robot can't go
-    SOFT_OBSTACLE = 0x300, //Zone where the robot can eventually go but must be cautious when turning
-    CLOSED_LIST = 0x001,
-    FINAL_TRAJ = 0x002,
-    OPEN_LIST = 0x004,
-    ROBOT = 0x008,
-    TEMPORARY_ALLOWED = 0x010
+    NEW_NODE = 0x1000,
+    OBSTACLE = 0x2000,
+    FORBIDDEN = 0x4000, // Zone where the robot can't go
+    SOFT_OBSTACLE = 0x8000, //Zone where the robot can eventually go but must be cautious when turning
+    CLOSED_LIST = 0x0001,
+    FINAL_TRAJ = 0x0002,
+    OPEN_LIST = 0x0004,
+    TEMPORARY_ALLOWED = 0x0008,
+    ROBOT = 0x0100
 }nodeType_e;
 
 typedef struct
